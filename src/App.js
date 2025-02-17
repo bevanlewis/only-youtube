@@ -1,25 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import SearchBar from "./components/SearchBar";
+import VideoDisplay from "./components/VideoDisplay";
+import "./App.css";
 
 function App() {
+  const navigate = useNavigate();
+  const { videoUrl } = useParams();
+  const [videoId, setVideoId] = useState(null);
+
+  useEffect(() => {
+    if (videoUrl) {
+      const id = extractVideoId(decodeURIComponent(videoUrl));
+      if (id) {
+        setVideoId(id);
+      }
+    }
+  }, [videoUrl]);
+
+  const handleSearch = (url) => {
+    const id = extractVideoId(url);
+    if (id) {
+      setVideoId(id);
+      navigate(`/${encodeURIComponent(url)}`);
+    } else {
+      alert("Please enter a valid YouTube video URL.");
+    }
+  };
+
+  const extractVideoId = (url) => {
+    const regex =
+      /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)|youtu\.be\/([^&]+)/;
+    const match = url.match(regex);
+    return match ? match[1] || match[2] : null;
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchBar onSearch={handleSearch} isVideoDisplayed={!!videoId} />
+      <VideoDisplay videoId={videoId} />
     </div>
   );
 }
 
-export default App;
+function AppWrapper() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/:videoUrl?" element={<App />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default AppWrapper;
