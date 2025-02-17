@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
   useNavigate,
   useParams,
 } from "react-router-dom";
@@ -43,7 +44,14 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div
+      className="App"
+      style={{
+        backgroundColor: "#0F0F0F",
+        minHeight: "100vh",
+        color: "#FFFFFF",
+      }}
+    >
       <SearchBar onSearch={handleSearch} isVideoDisplayed={!!videoId} />
       <VideoDisplay videoId={videoId} />
     </div>
@@ -54,6 +62,7 @@ function AppWrapper() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to="/only-youtube" />} />
         <Route path="/only-youtube/:videoUrl?" element={<App />} />
       </Routes>
     </Router>
