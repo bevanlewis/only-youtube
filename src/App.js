@@ -17,7 +17,8 @@ function App() {
 
   useEffect(() => {
     if (videoUrl) {
-      const id = extractVideoId(decodeURIComponent(videoUrl));
+      const decodedUrl = decodeURIComponent(videoUrl);
+      const id = extractVideoId(decodedUrl);
       if (id) {
         setVideoId(id);
       }
@@ -28,7 +29,7 @@ function App() {
     const id = extractVideoId(url);
     if (id) {
       setVideoId(id);
-      navigate(`/${encodeURIComponent(url)}`);
+      navigate(`/only-youtube/${encodeURIComponent(url)}`);
     } else {
       alert("Please enter a valid YouTube video URL.");
     }
@@ -53,7 +54,7 @@ function AppWrapper() {
   return (
     <Router>
       <Routes>
-        <Route path="/:videoUrl?" element={<App />} />
+        <Route path="/only-youtube/:videoUrl?" element={<App />} />
       </Routes>
     </Router>
   );
