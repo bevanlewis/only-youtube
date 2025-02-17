@@ -2,6 +2,8 @@
 
 A web app that allows you to watch YouTube videos without the distraction of being on YouTube. Simply insert a video link and watch the video. This project is a simple YouTube video player application built using React and React Router.
 
+web link: [only-youtube](https://bevanlewis.github.io/only-youtube)
+
 **Features:**
 
 - **Search Bar:** A search bar is provided where users can paste the URL of a YouTube video they want to watch.
